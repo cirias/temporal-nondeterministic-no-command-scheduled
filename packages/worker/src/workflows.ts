@@ -20,6 +20,13 @@ export async function ExampleWorkflow(): Promise<void> {
           // - the order of all the starts of the next sleepRandom activity is random in the real run.
           // - the order of all the starts of the next sleepRandom activity is always the same in the replay run.
           // - and these two orders are different, which is the cause of non-deterministic error.
+          //
+          // IMPORTANT: Using sleepRandomLocal (a local activity) causes non-deterministic behavior.
+          // Local activities don't have completion time in their event history, making the order
+          // of when a localActivity resolves non-deterministic.
+          // Changing this to a normal activity (sleepRandom) would fix the issue because
+          // normal activities have their completion time recorded in the event history,
+          // ensuring deterministic replay.
           await sleepRandomLocal(1, 100);
 
           console.log(`sleep start ${offset} ${c}`);

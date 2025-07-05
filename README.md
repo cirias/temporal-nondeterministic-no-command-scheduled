@@ -24,6 +24,17 @@ The workflow creates non-determinism by:
 - Running multiple parallel tasks that race against each other
 - Deliberately throwing an error to force a replay
 
+## Key Finding: Local Activities vs Normal Activities
+
+**Important**: The non-deterministic issue in this example can be fixed by changing the local activities to normal activities. This is because:
+
+- **Local activities** don't have completion time recorded in their event history
+- The order of when a local activity resolves is therefore not deterministic during replay
+- **Normal activities** have their completion time properly recorded in the event history
+- Using normal activities ensures deterministic replay even with parallel execution
+
+This demonstrates a critical consideration when designing Temporal workflows with parallel execution patterns.
+
 ## Prerequisites
 
 - [Temporal CLI](https://docs.temporal.io/cli) installed
