@@ -39,6 +39,7 @@ export async function ExampleWorkflow(): Promise<void> {
     })
   );
 
-  // Delete this line and replay the history would also throw non-deterministic error
+  // Throw an error to trigger the replay of the workflow in the same run.
+  // Delete this line and replay the history would also throw non-deterministic error.
   throw new Error("Something went wrong");
 }

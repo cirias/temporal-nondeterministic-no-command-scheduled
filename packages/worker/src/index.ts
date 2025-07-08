@@ -1,6 +1,5 @@
 import { Worker, NativeConnection } from "@temporalio/worker";
 import * as activities from "./activities";
-import { ExampleWorkflow } from "./workflows";
 
 async function run() {
   const connection = await NativeConnection.connect({
@@ -13,6 +12,9 @@ async function run() {
     taskQueue: "example-task-queue",
     workflowsPath: require.resolve("./workflows"),
     activities,
+    interceptors: {
+      workflowModules: [require.resolve("./interceptors")],
+    },
   });
 
   console.log("Worker connected and ready to handle tasks");
